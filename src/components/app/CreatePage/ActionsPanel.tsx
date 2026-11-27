@@ -1,6 +1,7 @@
 import { Activity, memo, useCallback, useRef, useState } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import { Download, FileDown, FileUp, Info, RotateCcw, ShieldCheck } from "lucide-react";
+import { useDeviceWallet } from "../../../lib/deviceWallet";
 import { Button, Segmented, WalletButton } from "../../ui";
 import type { SegmentedOption, WalletPlatform } from "../../ui";
 
@@ -42,8 +43,11 @@ export const ActionsPanel = memo<ActionsPanelProps>(
         const importRef = useRef<HTMLInputElement>(null);
         const hasQuickActions = quickActions !== undefined && quickActions !== null;
 
-        const addApple = useCallback(() => onWallet("apple"), [onWallet]);
-        const addGoogle = useCallback(() => onWallet("google"), [onWallet]);
+        // Only the wallet this device supports: Apple on iOS, Google on Android, none on desktop.
+        const deviceWallet = useDeviceWallet();
+        const addToWallet = useCallback(() => {
+            if (deviceWallet) onWallet(deviceWallet);
+        }, [deviceWallet, onWallet]);
         const downloadImage = useCallback(() => onDownloadImage(format), [onDownloadImage, format]);
         const pickImport = useCallback(() => importRef.current?.click(), []);
         const handleImport = useCallback(
@@ -57,29 +61,25 @@ export const ActionsPanel = memo<ActionsPanelProps>(
 
         return (
             <section className="create-panel actions-panel" aria-label="Save and share">
-                <div className="actions-panel__wallet">
-                    <div className="actions-panel__wallet-buttons">
-                        <WalletButton
-                            platform="apple"
-                            onPress={addApple}
-                            loading={preparing === "apple"}
-                            disabled={preparing !== null}
-                        />
-                        <WalletButton
-                            platform="google"
-                            onPress={addGoogle}
-                            loading={preparing === "google"}
-                            disabled={preparing !== null}
-                        />
+                <Activity mode={deviceWallet ? "visible" : "hidden"}>
+                    <div className="actions-panel__wallet">
+                        <div className="actions-panel__wallet-buttons">
+                            <WalletButton
+                                platform={deviceWallet ?? "apple"}
+                                onPress={addToWallet}
+                                loading={preparing !== null}
+                                disabled={preparing !== null}
+                            />
+                        </div>
+                        <p className="actions-panel__note">
+                            <Info size={14} aria-hidden="true" />
+                            <span>
+                                Wallet passes need your own signing setup. This browser-only build prepares the pass
+                                file; it doesn’t hold signing keys.
+                            </span>
+                        </p>
                     </div>
-                    <p className="actions-panel__note">
-                        <Info size={14} aria-hidden="true" />
-                        <span>
-                            Wallet passes need your own signing setup. This browser-only build prepares the pass file;
-                            it doesn’t hold signing keys.
-                        </span>
-                    </p>
-                </div>
+                </Activity>
 
                 <Activity mode={hasQuickActions ? "visible" : "hidden"}>
                     <div className="actions-panel__quick">{quickActions}</div>

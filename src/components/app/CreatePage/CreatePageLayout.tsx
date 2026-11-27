@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from "react";
+import { Activity, memo, useCallback, useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router";
@@ -8,6 +8,7 @@ import type { CardDraftApi } from "../../../cards/draftStore";
 import { parseSetup, serializeSetup } from "../../../cards/setupFile";
 import { saveFile, toFileSlug } from "../../../lib/download";
 import { PATHS } from "../../../routes/paths";
+import { useDeviceWallet } from "../../../lib/deviceWallet";
 import { WalletButton } from "../../ui";
 import type { WalletCardData, WalletCardView, WalletPlatform } from "../../ui";
 import { ActionsPanel } from "./ActionsPanel";
@@ -102,8 +103,10 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
 
         const setPlatform = useCallback((platform: WalletPlatform) => setPreview({ platform }), [setPreview]);
         const setView = useCallback((view: WalletCardView) => setPreview({ view }), [setPreview]);
-        const addApple = useCallback(() => flow.start("apple"), [flow]);
-        const addGoogle = useCallback(() => flow.start("google"), [flow]);
+        const deviceWallet = useDeviceWallet();
+        const addToWallet = useCallback(() => {
+            if (deviceWallet) flow.start(deviceWallet);
+        }, [deviceWallet, flow]);
 
         const exportSetup = useCallback(() => {
             saveFile(
@@ -141,25 +144,19 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
             [onDownloadImage, showToast]
         );
 
+        // Phones get their own wallet's button; desktops get no bar (unless a page supplies one).
         const defaultMobileBar = useMemo(
             () => (
-                <div className="create-mobile-bar__wallets">
-                    <WalletButton
-                        platform="apple"
-                        onPress={addApple}
-                        loading={flow.preparing === "apple"}
-                        disabled={flow.preparing !== null}
-                    />
-                    <WalletButton
-                        platform="google"
-                        onPress={addGoogle}
-                        loading={flow.preparing === "google"}
-                        disabled={flow.preparing !== null}
-                    />
-                </div>
+                <WalletButton
+                    platform={deviceWallet ?? "apple"}
+                    onPress={addToWallet}
+                    loading={flow.preparing !== null}
+                    disabled={flow.preparing !== null}
+                />
             ),
-            [addApple, addGoogle, flow.preparing]
+            [deviceWallet, addToWallet, flow.preparing]
         );
+        const hasMobileBar = mobileBar !== undefined || deviceWallet !== null;
 
         return (
             <div className="create-page">
@@ -223,7 +220,9 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
                     </div>
                 </div>
 
-                <div className="create-mobile-bar">{mobileBar ?? defaultMobileBar}</div>
+                <Activity mode={hasMobileBar ? "visible" : "hidden"}>
+                    <div className="create-mobile-bar">{mobileBar ?? defaultMobileBar}</div>
+                </Activity>
 
                 <WalletPassDialog
                     platform={flow.prepared}
