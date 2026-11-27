@@ -1,0 +1,4 @@
+/* Links reuse the Button styles; drop the default link underline. */
+a.btn {
+    text-decoration: none;
+}

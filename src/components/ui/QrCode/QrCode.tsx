@@ -1,4 +1,4 @@
-import { Activity, memo, useEffect, useEffectEvent, useMemo } from "react";
+import { Activity, Suspense, memo, useEffect, useEffectEvent, useMemo } from "react";
 import { useQrCode } from "./useQrCode";
 import "./QrCode.css";
 
@@ -15,7 +15,18 @@ export interface QrCodeProps {
     overflowText?: string;
 }
 
-export const QrCode = memo<QrCodeProps>(
+/** Shows a loading placeholder while the QR engine chunk downloads. */
+export const QrCode = memo<QrCodeProps>(props => {
+    return (
+        <Suspense fallback={<QrPlaceholder size={props.size ?? 132} text="Loading QR code…" tone="pending" />}>
+            <QrCodeContent {...props} />
+        </Suspense>
+    );
+});
+
+QrCode.displayName = "QrCode";
+
+const QrCodeContent = memo<QrCodeProps>(
     ({ value, size = 132, label, onOverflowChange, overflowText = "Too long for a QR code" }) => {
         const result = useQrCode(value);
         const overflow = result.status === "overflow";
@@ -54,7 +65,7 @@ export const QrCode = memo<QrCodeProps>(
     }
 );
 
-QrCode.displayName = "QrCode";
+QrCodeContent.displayName = "QrCodeContent";
 
 interface QrPlaceholderProps {
     size: number;

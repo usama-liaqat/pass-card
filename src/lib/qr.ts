@@ -1,4 +1,4 @@
-import qrcode from "qrcode-generator";
+import type { QrFactory } from "./qrEngine";
 
 /** Modules of white space around the code, as the QR spec requires. */
 export const QR_QUIET_ZONE = 4;
@@ -48,8 +48,9 @@ const toPath = (isDark: (row: number, col: number) => boolean, count: number): s
 /**
  * Builds a QR code in UTF-8 byte mode. Tries error correction level M and
  * falls back to L when the text is too long, then reports overflow.
+ * `qrcode` is the factory from loadQrEngine(), which loads the library lazily.
  */
-export const generateQr = (text: string): QrResult => {
+export const generateQr = (qrcode: QrFactory, text: string): QrResult => {
     if (!text) return { status: "empty" };
     const data = toByteString(text);
     const levels: Array<"M" | "L"> = ["M", "L"];

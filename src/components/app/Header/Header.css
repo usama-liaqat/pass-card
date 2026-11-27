@@ -1,0 +1,236 @@
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.app-header__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 64px;
+}
+
+.app-header__brand {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.app-header__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-8);
+    background: var(--text);
+    color: var(--bg);
+}
+
+.app-header__name {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.app-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    min-width: 0;
+    margin-left: 16px;
+    overflow-x: auto;
+}
+
+.app-header__link {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 11px;
+    border-radius: var(--radius-9);
+    color: var(--text2);
+    font-size: var(--fs-13-5);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background-color var(--dur-fast) var(--ease),
+        color var(--dur-fast) var(--ease);
+}
+
+.app-header__link:hover {
+    background: var(--surface2);
+    color: var(--text);
+}
+
+/* NavLink sets aria-current="page" on the active route. */
+.app-header__link[aria-current="page"],
+.app-header__link[aria-current="page"]:hover {
+    background: var(--accentSoft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.app-header__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* The active page already shows its draft; no dot needed there. */
+.app-header__link[aria-current="page"] .app-header__dot {
+    display: none;
+}
+
+.app-header__spacer {
+    flex: 1;
+}
+
+.app-header__tools {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-header__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: var(--fs-12-5);
+    white-space: nowrap;
+}
+
+.app-header__menu-button {
+    display: none;
+}
+
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    animation: pc-menu-in 0.2s ease-out;
+}
+
+.mobile-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 6px 10px;
+    border-radius: var(--radius-10);
+    color: var(--text);
+    text-decoration: none;
+}
+
+.mobile-menu__item:hover {
+    background: var(--surface2);
+}
+
+.mobile-menu__item[aria-current="page"] {
+    background: var(--accentSoft);
+}
+
+.mobile-menu__tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-9);
+    background: var(--surface2);
+    color: var(--text2);
+}
+
+.mobile-menu__item[aria-current="page"] .mobile-menu__tile {
+    background: var(--accent);
+    color: var(--accentText);
+}
+
+.mobile-menu__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.mobile-menu__label {
+    font-size: var(--fs-14);
+    font-weight: 500;
+}
+
+.mobile-menu__item[aria-current="page"] .mobile-menu__label {
+    font-weight: 600;
+}
+
+.mobile-menu__description {
+    overflow: hidden;
+    color: var(--text3);
+    font-size: var(--fs-12-5);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mobile-menu__draft {
+    flex: none;
+    color: var(--accent);
+    font-size: var(--fs-12);
+    font-weight: 600;
+}
+
+.mobile-menu__item[aria-current="page"] .mobile-menu__draft {
+    display: none;
+}
+
+@keyframes pc-menu-in {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 1240px) {
+    .app-header__chip {
+        display: none;
+    }
+}
+
+@media (max-width: 980px) {
+    .app-header__nav {
+        display: none;
+    }
+
+    .app-header__menu-button {
+        display: inline-flex;
+    }
+}
+
+/* The panel only exists below 980px; hide it if the window grows while open. */
+@media (min-width: 981px) {
+    .mobile-menu {
+        display: none;
+    }
+}

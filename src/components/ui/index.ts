@@ -48,4 +48,5 @@ export type {
     WalletQr
 } from "./WalletCard/types";
 export { generateQr, QR_QUIET_ZONE } from "../../lib/qr";
+export { loadQrEngine, preloadQrEngine, QrEngineLoadError, resetQrEngine } from "../../lib/qrEngine";
 export type { QrResult } from "../../lib/qr";

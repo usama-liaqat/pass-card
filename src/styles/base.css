@@ -46,6 +46,43 @@ svg {
     outline-offset: 2px;
 }
 
+/* Page-width container: 1320px max, 32px side padding (16px on phones). */
+.wrap {
+    width: 100%;
+    max-width: 1320px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 32px;
+    padding-left: 32px;
+}
+
+@media (max-width: 980px) {
+    .wrap {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+}
+
+/*
+ * Fade pages in on in-app navigation only (AppShell sets data-navigated after
+ * the first route change), so prerendered content shows at once on load.
+ * Disabled with reduced motion below.
+ */
+@keyframes pc-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+[data-navigated] .page-enter {
+    animation: pc-page-in 0.24s ease-out;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;

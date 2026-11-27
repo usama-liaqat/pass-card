@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { Suspense, memo } from "react";
 import type { ComponentType } from "react";
 import { Lock, Moon, Sun } from "lucide-react";
 import { Badge, Button } from "../../components/ui";
@@ -148,11 +148,15 @@ const ShowcaseBlock = memo<ShowcaseBlockProps>(({ section }) => {
             <div className="showcase__pair">
                 <ThemeScope theme="light" className="showcase__pane">
                     <div className="showcase__pane-label">Light</div>
-                    <Demo />
+                    <Suspense fallback={null}>
+                        <Demo />
+                    </Suspense>
                 </ThemeScope>
                 <ThemeScope theme="dark" className="showcase__pane">
                     <div className="showcase__pane-label">Dark</div>
-                    <Demo />
+                    <Suspense fallback={null}>
+                        <Demo />
+                    </Suspense>
                 </ThemeScope>
             </div>
         </section>

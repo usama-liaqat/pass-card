@@ -23,9 +23,14 @@ export const ThemeProvider = memo<ThemeProviderProps>(({ children }) => {
 
     const theme = useMemo<Theme>(() => override ?? (prefersDark ? "dark" : "light"), [override, prefersDark]);
 
+    // Only mark <html> once the user picks a theme. Until then the CSS follows the
+    // OS by itself, so a prerendered page never flashes light on a dark system
+    // while hydration still assumes the server's "light".
     useEffect(() => {
-        document.documentElement.dataset.theme = theme;
-    }, [theme]);
+        const root = document.documentElement;
+        if (override) root.dataset.theme = override;
+        else delete root.dataset.theme;
+    }, [override]);
 
     const setTheme = useCallback((next: Theme) => setOverride(next), []);
     const toggleTheme = useCallback(() => setOverride(theme === "dark" ? "light" : "dark"), [theme]);
