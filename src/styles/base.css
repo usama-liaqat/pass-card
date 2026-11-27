@@ -83,6 +83,21 @@ svg {
     animation: pc-page-in 0.24s ease-out;
 }
 
+/* Small "Soon" tag for card types that aren't ready yet. */
+.soon-tag {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: var(--radius-full);
+    background: var(--seg);
+    color: var(--text2);
+    font-size: var(--fs-12);
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;

@@ -53,10 +53,13 @@ export const Header = memo(() => {
                         <NavLink key={type.id} to={type.route} className="app-header__link">
                             <type.icon size={15} aria-hidden="true" />
                             {type.navLabel}
-                            <Activity mode={drafts[type.id] ? "visible" : "hidden"}>
+                            <Activity mode={drafts[type.id] && !type.comingSoon ? "visible" : "hidden"}>
                                 <span className="app-header__dot" title="Draft kept in this tab">
                                     <span className="sr-only">(draft)</span>
                                 </span>
+                            </Activity>
+                            <Activity mode={type.comingSoon ? "visible" : "hidden"}>
+                                <span className="soon-tag">Soon</span>
                             </Activity>
                         </NavLink>
                     ))}

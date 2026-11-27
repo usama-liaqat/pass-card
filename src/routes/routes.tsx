@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
 import type { RouteObject } from "react-router";
 import { AppShell } from "../components/app/AppShell/AppShell";
-import { CARD_TYPES } from "../cards/cardTypes";
-import type { CardTypeId } from "../cards/cardTypes";
+import { CARD_TYPES, FUTURE_CARD_TYPES } from "../cards/cardTypes";
+import type { CardTypeConfig } from "../cards/cardTypes";
 import { BankCardPage } from "../pages/BankCardPage/BankCardPage";
 import { CardPlaceholderPage } from "../pages/CardPlaceholderPage/CardPlaceholderPage";
+import { ComingSoonPage } from "../pages/ComingSoonPage/ComingSoonPage";
 import { ComponentsPage } from "../pages/ComponentsPage/ComponentsPage";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 import { HomePage } from "../pages/HomePage/HomePage";
@@ -12,13 +13,19 @@ import { NotFoundPage } from "../pages/NotFoundPage/NotFoundPage";
 import { PATHS } from "./paths";
 
 /** Card types with a finished page; the rest still use the placeholder page. */
-const CARD_PAGES: Partial<Record<CardTypeId, ComponentType>> = {
+const CARD_PAGES: Partial<Record<CardTypeConfig["id"], ComponentType>> = {
     bank: BankCardPage
 };
 
-const cardElement = (id: CardTypeId) => {
-    const Page = CARD_PAGES[id];
-    return Page ? <Page /> : <CardPlaceholderPage typeId={id} />;
+/**
+ * A card type's URL shows the coming soon page while its comingSoon flag is
+ * set, so links and prerendered files stay valid; clearing the flag brings
+ * the real page back.
+ */
+const cardElement = (type: CardTypeConfig) => {
+    if (type.comingSoon) return <ComingSoonPage type={type} />;
+    const Page = CARD_PAGES[type.id];
+    return Page ? <Page /> : <CardPlaceholderPage typeId={type.id} />;
 };
 
 /**
@@ -40,7 +47,11 @@ export const routes: Array<RouteObject> = [
                     { index: true, element: <HomePage /> },
                     ...CARD_TYPES.map<RouteObject>(type => ({
                         path: type.route,
-                        element: cardElement(type.id)
+                        element: cardElement(type)
+                    })),
+                    ...FUTURE_CARD_TYPES.map<RouteObject>(type => ({
+                        path: type.route,
+                        element: <ComingSoonPage type={type} />
                     })),
                     { path: PATHS.components, element: <ComponentsPage /> },
                     { path: "*", element: <NotFoundPage /> }

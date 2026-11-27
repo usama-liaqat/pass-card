@@ -2,8 +2,8 @@ import { Activity, memo, useMemo } from "react";
 import { ArrowRight, Lock, QrCode, ShieldCheck, Wallet } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router";
-import { CARD_TYPES, createLabel } from "../../cards/cardTypes";
-import type { CardTypeConfig } from "../../cards/cardTypes";
+import { CARD_TYPES, FUTURE_CARD_TYPES, createLabel } from "../../cards/cardTypes";
+import type { CardTypeConfig, CardTypeInfo } from "../../cards/cardTypes";
 import { buildCardPreview } from "../../cards/cardPreview";
 import { hasDraftContent, useAllDrafts } from "../../cards/draftStore";
 import type { CardDraft } from "../../cards/draftStore";
@@ -75,9 +75,19 @@ export const HomePage = memo(() => {
                 ))}
             </ul>
 
-            <p className="home__footnote">
-                More card types — membership, loyalty and emergency contact — are on the way.
-            </p>
+            <section className="home-soon" aria-labelledby="home-soon-title">
+                <div className="home-soon__head">
+                    <h2 id="home-soon-title" className="home-soon__title">
+                        Coming soon
+                    </h2>
+                    <span className="home-soon__sub">More card types on the way</span>
+                </div>
+                <div className="home-soon__grid">
+                    {FUTURE_CARD_TYPES.map(type => (
+                        <HomeSoonTile key={type.id} type={type} />
+                    ))}
+                </div>
+            </section>
         </div>
     );
 });
@@ -93,7 +103,8 @@ interface HomeCardTileProps {
 const HomeCardTile = memo<HomeCardTileProps>(({ type, draft }) => {
     const Icon = type.icon;
     const card = useMemo(() => buildCardPreview(type.id, draft), [type.id, draft]);
-    const hasDraft = useMemo(() => hasDraftContent(draft), [draft]);
+    const hasDraft = useMemo(() => !type.comingSoon && hasDraftContent(draft), [type.comingSoon, draft]);
+    const cta = useMemo(() => (type.comingSoon ? "See what’s coming" : createLabel(type)), [type]);
     return (
         <Link to={type.route} className="home-tile">
             <span className="home-tile__stage">
@@ -113,10 +124,15 @@ const HomeCardTile = memo<HomeCardTileProps>(({ type, draft }) => {
                     <Icon size={20} />
                 </span>
                 <span className="home-tile__text">
-                    <span className="home-tile__name">{type.name}</span>
+                    <span className="home-tile__name">
+                        {type.name}
+                        <Activity mode={type.comingSoon ? "visible" : "hidden"}>
+                            <span className="soon-tag">Soon</span>
+                        </Activity>
+                    </span>
                     <span className="home-tile__description">{type.description}</span>
                     <span className="home-tile__cta">
-                        {createLabel(type)}
+                        {cta}
                         <ArrowRight size={15} aria-hidden="true" />
                     </span>
                 </span>
@@ -126,5 +142,30 @@ const HomeCardTile = memo<HomeCardTileProps>(({ type, draft }) => {
 });
 
 HomeCardTile.displayName = "HomeCardTile";
+
+interface HomeSoonTileProps {
+    type: CardTypeInfo;
+}
+
+/** A future card type, linking to its coming soon page. */
+const HomeSoonTile = memo<HomeSoonTileProps>(({ type }) => {
+    const Icon = type.icon;
+    return (
+        <Link to={type.route} className="home-soon-tile">
+            <span className="home-soon-tile__icon" aria-hidden="true">
+                <Icon size={17} />
+            </span>
+            <span className="home-soon-tile__text">
+                <span className="home-soon-tile__name">
+                    {type.title}
+                    <span className="soon-tag">Soon</span>
+                </span>
+                <span className="home-soon-tile__description">{type.description}</span>
+            </span>
+        </Link>
+    );
+});
+
+HomeSoonTile.displayName = "HomeSoonTile";
 
 export default HomePage;

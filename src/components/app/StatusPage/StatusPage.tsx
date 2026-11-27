@@ -1,6 +1,6 @@
 import { Activity, memo, useMemo } from "react";
 import type { ReactNode } from "react";
-import { ChevronRight, Copy, Shield } from "lucide-react";
+import { Check, ChevronRight, Copy, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router";
 import { classNames } from "../../../lib/classNames";
@@ -8,7 +8,7 @@ import { Button, Disclosure } from "../../ui";
 import { LinkButton } from "../LinkButton/LinkButton";
 import "./StatusPage.css";
 
-export type StatusTone = "not-found" | "error";
+export type StatusTone = "not-found" | "error" | "coming-soon";
 
 /** An action is either an in-app link (`to`) or a button (`onClick`). */
 export type StatusAction =
@@ -36,14 +36,18 @@ export interface StatusPageProps {
     /** Technical details, shown in a collapsible section with a copy button. */
     details?: string;
     onCopyDetails?: () => void;
+    /** A checked list, e.g. "What it will do" on the coming soon page. */
+    points?: Array<string>;
+    pointsTitle?: string;
     links?: Array<StatusLink>;
     linksTitle?: string;
     note: string;
 }
 
 const NO_LINKS: Array<StatusLink> = [];
+const NO_POINTS: Array<string> = [];
 
-/** The 404 and error pages, from StatusPage.dc.html. */
+/** The 404, error and coming soon pages, from StatusPage.dc.html. */
 export const StatusPage = memo<StatusPageProps>(
     ({
         tone,
@@ -55,6 +59,8 @@ export const StatusPage = memo<StatusPageProps>(
         secondary,
         details,
         onCopyDetails,
+        points = NO_POINTS,
+        pointsTitle,
         links = NO_LINKS,
         linksTitle,
         note
@@ -62,6 +68,7 @@ export const StatusPage = memo<StatusPageProps>(
         const rootClass = useMemo(() => classNames("status-page", `status-page--${tone}`), [tone]);
         const hasPath = Boolean(path);
         const hasDetails = Boolean(details);
+        const hasPoints = points.length > 0;
         const hasLinks = links.length > 0;
 
         return (
@@ -84,6 +91,20 @@ export const StatusPage = memo<StatusPageProps>(
                             <StatusActionView action={secondary} variant="secondary" />
                         </Activity>
                     </div>
+
+                    <Activity mode={hasPoints ? "visible" : "hidden"}>
+                        <div className="status-page__points">
+                            <div className="status-page__points-title">{pointsTitle}</div>
+                            <ul className="status-page__points-list">
+                                {points.map(point => (
+                                    <li key={point} className="status-page__point">
+                                        <Check size={16} strokeWidth={2.25} aria-hidden="true" />
+                                        <span>{point}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </Activity>
 
                     <Activity mode={hasDetails ? "visible" : "hidden"}>
                         <div className="status-page__details">
@@ -232,6 +253,21 @@ const GLYPHS: Record<StatusTone, ReactNode> = {
             <path d="M12 9v4" />
             <path d="M12 17h.01" />
             <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+        </svg>
+    ),
+    "coming-soon": (
+        <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
         </svg>
     )
 };

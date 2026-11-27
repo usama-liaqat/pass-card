@@ -65,6 +65,21 @@
     background: var(--surface);
 }
 
+.status-page--coming-soon .status-art__card--front {
+    border-style: dashed;
+    border-color: var(--border2);
+    background: var(--surface);
+}
+
+.status-page--coming-soon .status-art__tile {
+    background: var(--accentSoft);
+}
+
+.status-page--coming-soon .status-art__badge {
+    background: var(--accent);
+    color: var(--accentText);
+}
+
 .status-art__row {
     display: flex;
     align-items: center;
@@ -199,6 +214,48 @@
 .status-page__links {
     align-self: stretch;
     text-align: left;
+}
+
+/* "What it will do" */
+.status-page__points {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: var(--radius-14);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: left;
+}
+
+.status-page__points-title {
+    font-size: var(--fs-13);
+    font-weight: 600;
+}
+
+.status-page__points-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.status-page__point {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--text2);
+    font-size: var(--fs-13-5);
+    line-height: 1.5;
+}
+
+.status-page__point svg {
+    flex: none;
+    margin-top: 2px;
+    color: var(--accent);
 }
 
 .status-page__pre {

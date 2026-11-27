@@ -25,6 +25,7 @@ export const MobileMenu = memo<MobileMenuProps>(({ id, open, drafts, onNavigate 
                     label="All cards"
                     description="Start from the homepage"
                     draft={false}
+                    soon={false}
                     onNavigate={onNavigate}
                 />
                 {CARD_TYPES.map(type => (
@@ -34,7 +35,8 @@ export const MobileMenu = memo<MobileMenuProps>(({ id, open, drafts, onNavigate 
                         icon={type.icon}
                         label={type.navLabel}
                         description={type.description}
-                        draft={drafts[type.id]}
+                        draft={drafts[type.id] && !type.comingSoon}
+                        soon={type.comingSoon}
                         onNavigate={onNavigate}
                     />
                 ))}
@@ -52,25 +54,34 @@ interface MobileMenuItemProps {
     label: string;
     description: string;
     draft: boolean;
+    /** Card type still in progress: shows a "Soon" tag. */
+    soon: boolean;
     onNavigate: () => void;
 }
 
-const MobileMenuItem = memo<MobileMenuItemProps>(({ to, end, icon: Icon, label, description, draft, onNavigate }) => {
-    return (
-        <NavLink to={to} end={end} className="mobile-menu__item" onClick={onNavigate}>
-            <span className="mobile-menu__tile" aria-hidden="true">
-                <Icon size={17} />
-            </span>
-            <span className="mobile-menu__text">
-                <span className="mobile-menu__label">{label}</span>
-                <span className="mobile-menu__description">{description}</span>
-            </span>
-            <Activity mode={draft ? "visible" : "hidden"}>
-                <span className="mobile-menu__draft">Draft</span>
-            </Activity>
-        </NavLink>
-    );
-});
+const MobileMenuItem = memo<MobileMenuItemProps>(
+    ({ to, end, icon: Icon, label, description, draft, soon, onNavigate }) => {
+        return (
+            <NavLink to={to} end={end} className="mobile-menu__item" onClick={onNavigate}>
+                <span className="mobile-menu__tile" aria-hidden="true">
+                    <Icon size={17} />
+                </span>
+                <span className="mobile-menu__text">
+                    <span className="mobile-menu__label">
+                        {label}
+                        <Activity mode={soon ? "visible" : "hidden"}>
+                            <span className="soon-tag">Soon</span>
+                        </Activity>
+                    </span>
+                    <span className="mobile-menu__description">{description}</span>
+                </span>
+                <Activity mode={draft ? "visible" : "hidden"}>
+                    <span className="mobile-menu__draft">Draft</span>
+                </Activity>
+            </NavLink>
+        );
+    }
+);
 
 MobileMenuItem.displayName = "MobileMenuItem";
 

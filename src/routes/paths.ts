@@ -1,4 +1,4 @@
-import { CARD_TYPES } from "../cards/cardTypes";
+import { CARD_TYPES, FUTURE_CARD_TYPES } from "../cards/cardTypes";
 
 export const PATHS = {
     home: "/",
@@ -41,13 +41,24 @@ export const getPageMeta = (appPath: string): PageMeta => {
     const path = normalizePath(appPath);
     if (path === PATHS.home) return { title: "Passcard · Create your wallet card", description: SITE_DESCRIPTION };
     if (path === PATHS.components) return { title: "Components · Passcard", description: "Passcard's design system." };
-    const type = CARD_TYPES.find(item => item.route === path);
+    const type = [...CARD_TYPES, ...FUTURE_CARD_TYPES].find(item => item.route === path);
+    if (type?.comingSoon) {
+        return {
+            title: `${type.title} — coming soon · Passcard`,
+            description: `${type.description} Coming soon to Passcard, the free wallet card maker that runs in your browser.`
+        };
+    }
     if (type) return { title: `${type.title} · Passcard`, description: type.description };
     return NOT_FOUND_META;
 };
 
 /** Every route that gets its own prerendered index.html. */
-export const PRERENDER_PATHS: Array<string> = [PATHS.home, ...CARD_TYPES.map(type => type.route), PATHS.components];
+export const PRERENDER_PATHS: Array<string> = [
+    PATHS.home,
+    ...CARD_TYPES.map(type => type.route),
+    ...FUTURE_CARD_TYPES.map(type => type.route),
+    PATHS.components
+];
 
 /** Any path that matches no route; rendered once as dist/404.html. */
 export const NOT_FOUND_RENDER_PATH = "/404";

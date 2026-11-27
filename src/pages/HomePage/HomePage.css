@@ -137,6 +137,10 @@
 }
 
 .home-tile__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
     font-size: var(--fs-16);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -161,6 +165,98 @@
 
 .home-tile:hover .home-tile__cta {
     gap: 10px;
+}
+
+/* "Coming soon" row of future card types */
+.home-soon {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 36px;
+}
+
+.home-soon__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-soon__title {
+    margin: 0;
+    font-size: var(--fs-15);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.home-soon__sub {
+    color: var(--text3);
+    font-size: var(--fs-12-5);
+}
+
+.home-soon__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.home-soon-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px 16px;
+    border-radius: var(--radius-14);
+    border: 1px dashed var(--border2);
+    background: transparent;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+        transform 0.18s var(--ease),
+        box-shadow 0.18s var(--ease),
+        border-color 0.18s var(--ease);
+}
+
+.home-soon-tile:hover {
+    border-color: var(--text3);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-2px);
+}
+
+.home-soon-tile__icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-9);
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text3);
+}
+
+.home-soon-tile__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.home-soon-tile__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--fs-14);
+    font-weight: 600;
+}
+
+.home-soon-tile__description {
+    color: var(--text3);
+    font-size: var(--fs-12-5);
+    line-height: 1.45;
 }
 
 .home__features {
@@ -213,18 +309,13 @@
     line-height: 1.45;
 }
 
-.home__footnote {
-    margin: 24px 0 0;
-    color: var(--text3);
-    font-size: var(--fs-12-5);
-}
-
 @media (max-width: 600px) {
     .home__title {
         font-size: var(--fs-22);
     }
 
     .home__grid,
+    .home-soon__grid,
     .home__features {
         grid-template-columns: minmax(0, 1fr);
     }
