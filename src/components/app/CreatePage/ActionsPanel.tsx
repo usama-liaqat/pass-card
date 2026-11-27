@@ -18,6 +18,7 @@ export interface ActionsPanelProps {
     /** Extra buttons, e.g. "Copy IBAN", laid out in a grid. */
     quickActions?: ReactNode;
     onDownloadImage: (format: CardImageFormat) => void;
+    imageBusy?: boolean;
     /** Card-specific privacy note. */
     privacyNote: ReactNode;
     onExport: () => void;
@@ -26,7 +27,17 @@ export interface ActionsPanelProps {
 }
 
 export const ActionsPanel = memo<ActionsPanelProps>(
-    ({ preparing, onWallet, quickActions, onDownloadImage, privacyNote, onExport, onImport, onReset }) => {
+    ({
+        preparing,
+        onWallet,
+        quickActions,
+        onDownloadImage,
+        imageBusy = false,
+        privacyNote,
+        onExport,
+        onImport,
+        onReset
+    }) => {
         const [format, setFormat] = useState<CardImageFormat>("png");
         const importRef = useRef<HTMLInputElement>(null);
         const hasQuickActions = quickActions !== undefined && quickActions !== null;
@@ -85,7 +96,7 @@ export const ActionsPanel = memo<ActionsPanelProps>(
                             onValueChange={setFormat}
                         />
                     </div>
-                    <Button icon={Download} onClick={downloadImage}>
+                    <Button icon={Download} onClick={downloadImage} loading={imageBusy} loadingLabel="Saving…">
                         Download card
                     </Button>
                 </div>

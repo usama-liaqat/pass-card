@@ -15,6 +15,18 @@ export const saveFile = (fileName: string, data: string | Blob, type = "applicat
 /** Reads a user-picked file as text. */
 export const readFileText = (file: File): Promise<string> => file.text();
 
+/** Reads an image as a data URL, so it can be stored in the draft and drawn into exports. */
+export const readFileAsDataUrl = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(reader.error ?? new Error("Couldn’t read that file"));
+        reader.readAsDataURL(file);
+    });
+
+/** Turns a data URL back into a Blob for download. */
+export const dataUrlToBlob = async (dataUrl: string): Promise<Blob> => (await fetch(dataUrl)).blob();
+
 /** "Bank Alfalah" → "bank-alfalah", for download file names. */
 export const toFileSlug = (value: string, fallback = "passcard"): string =>
     value

@@ -1,5 +1,7 @@
 import { AtSign, Globe, Mail, Phone, Wifi } from "lucide-react";
 import type { WalletCardData } from "../components/ui";
+import { BANK_SAMPLE } from "./bank/bankState";
+import { buildBankCard } from "./bank/buildBankCard";
 import type { CardTypeId } from "./cardTypes";
 
 /**
@@ -7,51 +9,8 @@ import type { CardTypeId } from "./cardTypes";
  * until the user starts a draft, and the placeholder pages fill their preview
  * from them. Brand colors here are card data, not app tokens.
  */
-const BANK_DISCLAIMER =
-    "This pass shares bank account details only. It is not a debit or credit card and cannot be used for payments.";
-
 export const SAMPLE_CARDS: Record<CardTypeId, WalletCardData> = {
-    bank: {
-        theme: {
-            bg: "#C8102E",
-            fg: "#FFFFFF",
-            label: "rgba(255,255,255,0.74)",
-            border: "transparent",
-            googleFg: "#FFFFFF",
-            googleLabel: "rgba(255,255,255,0.78)",
-            tileBg: "rgba(255,255,255,0.18)",
-            tileFg: "#FFFFFF"
-        },
-        title: "Bank Alfalah",
-        logo: { kind: "mono", text: "BAF", size: 11 },
-        header: { label: "Currency", value: "PKR" },
-        primary: { label: "Savings account", value: "Ayesha Raza Khan" },
-        secondary: [
-            { id: "acc", label: "Account no.", value: "5501 0012 3456 78", flex: 1.4 },
-            { id: "branch", label: "Branch", value: "5501", align: "right" }
-        ],
-        auxiliary: [{ id: "iban", label: "IBAN", value: "PK83 ALFH 0055 0100 1234 5678" }],
-        googleSubheader: "Savings account",
-        googleRows: [
-            {
-                id: "r1",
-                cells: [
-                    { id: "acc", label: "Account number", value: "5501 0012 3456 78" },
-                    { id: "cur", label: "Currency", value: "PKR" }
-                ]
-            },
-            { id: "r2", cells: [{ id: "iban", label: "IBAN", value: "PK83 ALFH 0055 0100 1234 5678" }] }
-        ],
-        qr: { value: "PK83ALFH0055010012345678", alt: "Scan to copy IBAN" },
-        details: [
-            { id: "bn", label: "Branch name", value: "F-7 Markaz, Islamabad" },
-            { id: "swift", label: "SWIFT / BIC", value: "ALFHPKKA" },
-            { id: "raast", label: "Raast ID", value: "0300 1234567" }
-        ],
-        emptyDetailsText:
-            "No additional details yet. Add a branch name, SWIFT code, Raast ID or notes under Additional details.",
-        disclaimer: BANK_DISCLAIMER
-    },
+    bank: buildBankCard(BANK_SAMPLE),
     business: {
         theme: {
             bg: "#18181B",

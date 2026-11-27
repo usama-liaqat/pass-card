@@ -26,7 +26,12 @@ export { Select } from "./Select/Select";
 export type { SelectOption, SelectProps } from "./Select/Select";
 export type { FlagRect, SelectLeading } from "./Select/SelectLeading";
 export { ThemeThumbnail, ThemeThumbnailGroup } from "./ThemeThumbnail/ThemeThumbnail";
-export type { ThemeThumbnailGroupProps, ThumbnailSample, ThumbnailTheme } from "./ThemeThumbnail/ThemeThumbnail";
+export type {
+    ThemeThumbnailGroupProps,
+    ThumbnailSample,
+    ThumbnailTheme,
+    ThumbnailVariant
+} from "./ThemeThumbnail/ThemeThumbnail";
 export { Toast } from "./Toast/Toast";
 export type { ToastProps, ToastTone } from "./Toast/Toast";
 export { Toggle } from "./Toggle/Toggle";

@@ -40,6 +40,10 @@ export interface CreatePageLayoutProps {
     mobileBar?: ReactNode;
     /** Card image export. Leave undefined until the page supports it. */
     onDownloadImage?: (format: CardImageFormat) => void;
+    /** True while the card image is being drawn. */
+    imageBusy?: boolean;
+    /** Called after "Reset form" clears the draft, e.g. to clear shown errors. */
+    onReset?: () => void;
     /** The form sections (put a validation Banner first if needed). */
     children: ReactNode;
 }
@@ -69,6 +73,8 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
         privacyNote,
         mobileBar,
         onDownloadImage,
+        imageBusy = false,
+        onReset,
         children
     }) => {
         const { showToast } = useToast();
@@ -123,8 +129,9 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
 
         const resetForm = useCallback(() => {
             reset();
+            onReset?.();
             showToast("Form reset");
-        }, [reset, showToast]);
+        }, [reset, onReset, showToast]);
 
         const downloadImage = useCallback(
             (format: CardImageFormat) => {
@@ -206,6 +213,7 @@ export const CreatePageLayout = memo<CreatePageLayoutProps>(
                                 onWallet={flow.start}
                                 quickActions={quickActions}
                                 onDownloadImage={downloadImage}
+                                imageBusy={imageBusy}
                                 privacyNote={privacyNote}
                                 onExport={exportSetup}
                                 onImport={importSetup}
