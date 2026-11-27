@@ -42,6 +42,11 @@ jobs:
                   # "/pass-card" for a project site, "" for a custom domain.
                   BASE_PATH: ${{ steps.pages.outputs.base_path }}/
 
+            # GitHub Pages has no SPA rewrites; serving index.html as the 404 page
+            # lets React Router handle deep links like /pass-card/about on refresh.
+            - name: Add SPA fallback
+              run: cp dist/index.html dist/404.html
+
             - uses: actions/upload-pages-artifact@v5
               with:
                   path: dist
