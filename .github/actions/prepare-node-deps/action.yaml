@@ -1,0 +1,54 @@
+# Shared JS toolchain bootstrap.
+#
+# Puts the Yarn release committed under .yarn/releases on PATH and runs an
+# immutable install.
+#
+# Nothing is wiped beforehand: actions/checkout already starts from a clean
+# tree, and the Yarn cache is restored from the Actions cache rather than
+# re-downloaded.
+name: prepare-node-deps
+description: Installs Node, activates the vendored Yarn 4 and runs `yarn install --immutable`.
+
+inputs:
+    node-version:
+        description: Node version to install. Must satisfy the `engines.node` range in package.json.
+        required: false
+        default: "24"
+
+runs:
+    using: composite
+    steps:
+        - name: Set up Node
+          uses: actions/setup-node@v7
+          with:
+              node-version: ${{ inputs.node-version }}
+
+        # NOT `corepack enable`. Corepack would download its own copy of the
+        # version in `packageManager` from repo.yarnpkg.com on every run.
+        #
+        # .yarnrc.yml already pins `yarnPath` to the release committed under
+        # .yarn/releases, so that file is the real Yarn either way. This just
+        # runs it directly, and the shim keeps plain `yarn <script>` working in
+        # later steps. The glob avoids restating the version on every bump.
+        - name: Activate vendored Yarn
+          shell: bash
+          run: |
+              printf '#!/bin/sh\nexec node "%s"/.yarn/releases/yarn-*.cjs "$@"\n' "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/yarn"
+              chmod +x "$RUNNER_TEMP/yarn"
+              echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+        # Keyed on yarn.lock: a lockfile change is the only thing that can change
+        # what an `--immutable` install resolves to. `.yarn/cache` is
+        # project-local (enableGlobalCache: false), so it is never on a fresh
+        # runner and this is what keeps installs off the network.
+        - name: Restore Yarn cache
+          uses: actions/cache@v6
+          with:
+              path: .yarn/cache
+              key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+              restore-keys: |
+                  yarn-${{ runner.os }}-
+
+        - name: Install dependencies
+          shell: bash
+          run: yarn install --immutable

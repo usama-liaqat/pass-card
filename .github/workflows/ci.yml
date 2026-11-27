@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Skip installing git hooks on the runner (postinstall runs `lefthook install`).
+  LEFTHOOK: 0
+
+jobs:
+  checks:
+    name: Lint, format, types & build
+    runs-on: ubuntu-latest
+    steps:
+      - name: ci/checkout-repo
+        uses: actions/checkout@v7
+
+      - name: ci/prepare-node-deps
+        uses: ./.github/actions/prepare-node-deps
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Format
+        run: yarn format:check
+
+      - name: Type check
+        run: yarn typecheck
+
+      - name: Build
+        run: yarn build
