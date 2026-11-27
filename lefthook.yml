@@ -1,19 +1,32 @@
 pre-commit:
-  parallel: true
-  commands:
-    types:
-      glob: "*.{ts,tsx}"
-      run: yarn typecheck
-    lint:
-      glob: "*.{js,ts,jsx,tsx}"
-      run: yarn oxlint --fix {staged_files}
-      stage_fixed: true
-    format:
-      glob: "*.{js,ts,jsx,tsx,json,css,md}"
-      run: yarn oxfmt --no-error-on-unmatched-pattern {staged_files}
-      stage_fixed: true
+    parallel: true
+    jobs:
+        - name: types
+          glob: "*.{ts,tsx,mts,cts}"
+          run: yarn typecheck
+
+        # Lint fixes first, then format, one after the other: both rewrite and
+        # re-stage the same files, so running them in parallel can race.
+        - name: fix
+          group:
+              piped: true
+              jobs:
+                  - name: lint
+                    glob: "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"
+                    exclude:
+                        - ".yarn/**"
+                    run: yarn oxlint --fix {staged_files}
+                    stage_fixed: true
+
+                  # Same file types `yarn format:check` covers in CI.
+                  - name: format
+                    glob: "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,json,jsonc,css,scss,html,md,yml,yaml}"
+                    exclude:
+                        - ".yarn/**"
+                    run: yarn oxfmt --no-error-on-unmatched-pattern {staged_files}
+                    stage_fixed: true
 
 commit-msg:
-  commands:
-    commitlint:
-      run: yarn commitlint --edit {1}
+    commands:
+        commitlint:
+            run: yarn commitlint --edit {1}
