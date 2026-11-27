@@ -1,0 +1,108 @@
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: var(--radius-10);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font: 500 var(--fs-13-5) / 1 var(--font);
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color var(--dur-fast) var(--ease),
+        border-color var(--dur-fast) var(--ease),
+        filter var(--dur-fast) var(--ease);
+}
+
+/* Keep a 44px hit area on every size without changing the visual height. */
+.btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--hit));
+    height: max(100%, var(--hit));
+    transform: translate(-50%, -50%);
+}
+
+.btn:hover:not(:disabled) {
+    background: var(--surface2);
+    border-color: var(--border2);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.btn--loading:disabled {
+    cursor: progress;
+    opacity: 1;
+}
+
+.btn--sm {
+    height: 34px;
+    padding: 0 10px;
+    font-size: var(--fs-13);
+}
+
+.btn--lg {
+    height: 44px;
+    padding: 0 18px;
+    font-size: var(--fs-14);
+}
+
+.btn--icon {
+    padding: 0;
+    aspect-ratio: 1;
+}
+
+.btn--full {
+    width: 100%;
+}
+
+.btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accentText);
+}
+
+.btn--primary:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+    filter: brightness(1.06);
+}
+
+.btn--ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text2);
+}
+
+.btn--ghost:hover:not(:disabled) {
+    background: var(--surface2);
+    border-color: transparent;
+    color: var(--text);
+}
+
+.btn__label {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn svg {
+    flex: none;
+}

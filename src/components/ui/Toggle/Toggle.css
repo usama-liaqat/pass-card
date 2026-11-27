@@ -1,0 +1,70 @@
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--text);
+}
+
+.toggle--disabled {
+    opacity: 0.5;
+}
+
+.toggle__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.toggle--disabled .toggle__text {
+    cursor: not-allowed;
+}
+
+.toggle__label {
+    font-size: var(--fs-13-5);
+    font-weight: 500;
+}
+
+.toggle__sub {
+    font-size: var(--fs-12);
+    color: var(--text3);
+}
+
+.toggle__switch {
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--border2);
+    cursor: pointer;
+    transition: background-color 0.18s var(--ease);
+}
+
+.toggle__switch[aria-checked="true"] {
+    background: var(--accent);
+}
+
+.toggle__switch:disabled {
+    cursor: not-allowed;
+}
+
+.toggle__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--knob);
+    box-shadow: var(--shadow-knob);
+    transition: transform 0.18s var(--ease);
+}
+
+.toggle__switch[aria-checked="true"] .toggle__knob {
+    transform: translateX(16px);
+}

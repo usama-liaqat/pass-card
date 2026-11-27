@@ -1,0 +1,30 @@
+.qr {
+    display: inline-flex;
+}
+
+/* A QR code must stay dark-on-light to scan, whatever the app theme. */
+.qr__bg {
+    fill: var(--qrLight);
+}
+
+.qr__modules {
+    fill: var(--qrDark);
+}
+
+.qr-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: 1.5px dashed var(--qrPlaceholderBorder);
+    border-radius: var(--radius-8);
+    color: var(--qrMuted);
+    font-size: 11.5px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.qr-placeholder[data-tone="error"] {
+    border-color: var(--qrError);
+    color: var(--qrError);
+}

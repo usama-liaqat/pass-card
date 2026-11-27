@@ -1,0 +1,185 @@
+.image-upload {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    color: var(--text);
+}
+
+.image-upload__label {
+    font-size: var(--fs-13);
+    font-weight: 500;
+}
+
+.image-upload__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-12);
+}
+
+.image-upload__preview {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-9);
+    border: 1px solid var(--border);
+    /* Logos are often transparent; white keeps them readable in dark mode too. */
+    background: var(--knob);
+    object-fit: contain;
+}
+
+.image-upload__preview--circle {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.image-upload__meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.image-upload__name {
+    overflow: hidden;
+    font-size: var(--fs-13-5);
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.image-upload__description {
+    font-size: var(--fs-12);
+    color: var(--text3);
+}
+
+.image-upload__replace,
+.image-upload__remove {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-radius: var(--radius-10);
+    font: 500 var(--fs-13) var(--font);
+    cursor: pointer;
+    transition:
+        background-color var(--dur-fast) var(--ease),
+        border-color var(--dur-fast) var(--ease);
+}
+
+.image-upload__replace::after,
+.image-upload__remove::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--hit));
+    height: max(100%, var(--hit));
+    transform: translate(-50%, -50%);
+}
+
+.image-upload__replace {
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+}
+
+.image-upload__replace:hover {
+    background: var(--surface2);
+    border-color: var(--border2);
+}
+
+.image-upload__remove {
+    width: 36px;
+    padding: 0;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text2);
+}
+
+.image-upload__remove:hover {
+    background: var(--surface2);
+    color: var(--text);
+}
+
+.image-upload__drop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px dashed var(--border2);
+    border-radius: var(--radius-12);
+    background: var(--surface2);
+    cursor: pointer;
+    transition:
+        border-color var(--dur-fast) var(--ease),
+        background-color var(--dur-fast) var(--ease);
+}
+
+.image-upload__drop:hover {
+    border-color: var(--accent);
+    background: var(--accentSoft);
+}
+
+.image-upload__drop-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-9);
+    background: var(--surface);
+    color: var(--text2);
+}
+
+.image-upload__drop-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.image-upload__prompt {
+    font-size: var(--fs-13-5);
+    font-weight: 500;
+}
+
+.image-upload__hint {
+    font-size: var(--fs-12);
+    color: var(--text3);
+}
+
+/* Visually hidden but focusable; its label (drop zone or Replace) shows the focus ring. */
+.image-upload__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.image-upload:has(.image-upload__input:focus-visible) .image-upload__drop,
+.image-upload:has(.image-upload__input:focus-visible) .image-upload__replace {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.image-upload__error {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    font-size: var(--fs-12-5);
+    line-height: 1.4;
+    color: var(--danger);
+}
+
+.image-upload__error svg {
+    flex: none;
+    margin-top: 2px;
+}

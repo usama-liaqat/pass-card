@@ -593,6 +593,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource-variable/inter@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@fontsource-variable/inter@npm:5.3.0"
+  checksum: 10/b7d30aa2605cc1b4db5d87ddc06de7b315c7b0e67c919052c8002d11670ee41fc0a0fcb01b7adbe8243bb889230ab61fbc0b0b84d34fd1fd4cf6f6f641a0ff73
+  languageName: node
+  linkType: hard
+
 "@isaacs/fs-minipass@npm:^4.0.0":
   version: 4.0.1
   resolution: "@isaacs/fs-minipass@npm:4.0.1"
@@ -2336,6 +2343,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^1.77.0":
+  version: 1.77.0
+  resolution: "lucide-react@npm:1.77.0"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10/dcaecd7c0add1a6b79938897585595669ec7e6ec5e54b757afed67b58da2a1299c5c93c67fcbeff2920dc150476bf585f60679f5203663db319d345c737a74ed
+  languageName: node
+  linkType: hard
+
 "minipass@npm:^7.0.4, minipass@npm:^7.1.2":
   version: 7.1.3
   resolution: "minipass@npm:7.1.3"
@@ -2630,6 +2650,7 @@ __metadata:
     "@babel/core": "npm:^7.29.13"
     "@commitlint/cli": "npm:^21.2.4"
     "@commitlint/config-conventional": "npm:^21.2.4"
+    "@fontsource-variable/inter": "npm:^5.3.0"
     "@rolldown/plugin-babel": "npm:^0.3.1"
     "@types/babel__core": "npm:^7.20.5"
     "@types/node": "npm:^26.6.6"
@@ -2641,8 +2662,10 @@ __metadata:
     "@vitejs/plugin-react": "npm:^6.3.0"
     babel-plugin-react-compiler: "npm:^1.0.0"
     lefthook: "npm:^2.2.4"
+    lucide-react: "npm:^1.77.0"
     oxfmt: "npm:^0.80.0"
     oxlint: "npm:^1.94.0"
+    qrcode-generator: "npm:^2.0.4"
     react: "npm:^19.3.1"
     react-dom: "npm:^19.3.1"
     react-router: "npm:^8.5.2"
@@ -2730,6 +2753,13 @@ __metadata:
   version: 7.0.0
   resolution: "proc-log@npm:7.0.0"
   checksum: 10/97cd9f4a8a0d84e42ee91e106e5ba5edcb954521e8dbe26ee6ad31396e5c12cc2be5e5b6be7b53fa5a69959afbacd32719106e2d6f45802e34b31d9a3a01ec20
+  languageName: node
+  linkType: hard
+
+"qrcode-generator@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "qrcode-generator@npm:2.0.4"
+  checksum: 10/c488558bca2869d8837300da299a9653030dbb486ce6113153585b117fa0ab6822a03c8312cc794d41c2e3f8353dc64b950e8a3ffe90f89022593c4e7060cd53
   languageName: node
   linkType: hard
 

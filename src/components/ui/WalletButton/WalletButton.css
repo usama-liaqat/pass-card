@@ -1,0 +1,74 @@
+.wallet-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    padding: 0 16px;
+    border: 1px solid var(--wbtnBorder);
+    background: var(--wbtnBg);
+    color: var(--wbtnText);
+    cursor: pointer;
+    transition:
+        opacity var(--dur-fast) var(--ease),
+        transform 0.1s var(--ease);
+}
+
+.wallet-btn--apple {
+    border-radius: var(--radius-10);
+}
+
+.wallet-btn--google {
+    border-radius: 26px;
+}
+
+.wallet-btn:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.wallet-btn:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.wallet-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.wallet-btn[aria-busy="true"] {
+    cursor: progress;
+    opacity: 1;
+}
+
+.wallet-btn__mark {
+    flex: none;
+}
+
+.wallet-btn__busy {
+    font-size: var(--fs-14);
+    font-weight: 500;
+}
+
+.wallet-btn__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    line-height: 1.1;
+}
+
+/* Badge lettering is part of the button artwork, sized as on the canvas. */
+.wallet-btn__add {
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.wallet-btn__name {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}

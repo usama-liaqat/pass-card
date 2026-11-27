@@ -1,0 +1,121 @@
+/*
+ * Passcard design tokens, copied from the Claude Design canvas (Main.dc.html).
+ *
+ * Every color is written as light-dark(<light>, <dark>). The pair resolves
+ * against the element's `color-scheme`, so any subtree can switch theme with
+ * data-theme="light" | "dark" (the showcase renders both side by side).
+ * Without a data-theme attribute the OS preference applies, so there is no
+ * flash of the wrong theme before React mounts.
+ *
+ * light-dark() is resolved on the element that declares the variable, so the
+ * tokens are declared again on every [data-theme] scope; otherwise a dark
+ * pane inside a light page would inherit the already-resolved light values.
+ */
+:root,
+[data-theme] {
+    color-scheme: light dark;
+
+    /* Surfaces */
+    --bg: light-dark(#f6f6f7, #09090b);
+    --surface: light-dark(#ffffff, #121215);
+    --surface2: light-dark(#f9f9fa, #18181c);
+    --stage: light-dark(#eeeef1, #0c0c0f);
+    --field: light-dark(#ffffff, #0e0e11);
+    --border: light-dark(#e4e4e7, #232328);
+    --border2: light-dark(#d4d4d8, #33333b);
+
+    /* Text */
+    --text: light-dark(#0a0a0b, #f4f4f5);
+    --text2: light-dark(#52525b, #b4b4bc);
+    --text3: light-dark(#6b6b74, #8e8e98);
+
+    /* Accent */
+    --accent: light-dark(#3f5bd9, #7d93ff);
+    --accentText: light-dark(#ffffff, #0a0a0b);
+    --accentSoft: light-dark(#eef1fd, rgba(125, 147, 255, 0.12));
+    --ring: light-dark(rgba(63, 91, 217, 0.24), rgba(125, 147, 255, 0.32));
+
+    /* Status */
+    --danger: light-dark(#d92d20, #f97066);
+    --dangerSoft: light-dark(#fef3f2, rgba(249, 112, 102, 0.08));
+    --dangerBorder: light-dark(#fbd5d1, rgba(249, 112, 102, 0.3));
+    --success: light-dark(#12805c, #47cd89);
+    --successSoft: light-dark(#e9f8f1, rgba(71, 205, 137, 0.1));
+    --warnSoft: light-dark(#fff8eb, rgba(253, 176, 34, 0.08));
+    --warnBorder: light-dark(#f8e3b5, rgba(253, 176, 34, 0.28));
+    --warnText: light-dark(#8a5300, #fdb022);
+
+    /* Controls */
+    --seg: light-dark(#ebebee, #1c1c21);
+    --segOn: light-dark(#ffffff, #2c2c33);
+    --knob: #ffffff;
+    --scrim: rgba(9, 9, 11, 0.48);
+
+    /* Wallet buttons stay black in both themes (platform badge style). */
+    --wbtnBg: #000000;
+    --wbtnText: #ffffff;
+    --wbtnBorder: light-dark(#000000, #3f3f46);
+
+    /* QR codes must stay dark-on-light to scan, in both themes. */
+    --qrDark: #000000;
+    --qrLight: #ffffff;
+    --qrMuted: #6b6b74;
+    --qrPlaceholderBorder: #b4b4bc;
+    --qrError: #d92d20;
+
+    /* Toast is inverted against the page, so its icons use the opposite palette. */
+    --toastBg: light-dark(#18181b, #f4f4f5);
+    --toastText: light-dark(#fafafa, #0a0a0b);
+    --toastSuccess: light-dark(#47cd89, #12805c);
+    --toastDanger: light-dark(#f97066, #d92d20);
+
+    /* Shadows (the panel shadow disappears in dark mode, as on the canvas) */
+    --shadow: 0 1px 2px light-dark(rgba(16, 16, 20, 0.04), transparent);
+    --shadow-seg: 0 1px 2px rgba(16, 16, 20, 0.12), 0 0 0 0.5px rgba(16, 16, 20, 0.06);
+    --shadow-menu: 0 12px 32px -8px rgba(16, 16, 20, 0.22), 0 2px 6px rgba(16, 16, 20, 0.06);
+    --shadow-toast: 0 12px 32px -8px rgba(0, 0, 0, 0.35);
+    --shadow-dialog: 0 24px 64px -16px rgba(0, 0, 0, 0.45);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06), 0 18px 40px -12px rgba(0, 0, 0, 0.32);
+    --shadow-knob: 0 1px 2px rgba(0, 0, 0, 0.25);
+
+    /* Type */
+    --font: "Inter Variable", Inter, -apple-system, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --fs-12: 12px;
+    --fs-12-5: 12.5px;
+    --fs-13: 13px;
+    --fs-13-5: 13.5px;
+    --fs-14: 14px;
+    --fs-15: 15px;
+    --fs-16: 16px;
+    --fs-20: 20px;
+    --fs-26: 26px;
+    --fs-32: 32px;
+
+    /* Radii */
+    --radius-8: 8px;
+    --radius-9: 9px;
+    --radius-10: 10px;
+    --radius-12: 12px;
+    --radius-14: 14px;
+    --radius-16: 16px;
+    --radius-20: 20px;
+    --radius-24: 24px;
+    --radius-full: 999px;
+
+    /* Motion */
+    --ease: ease;
+    --dur-fast: 0.15s;
+    --dur: 0.2s;
+
+    /* Minimum touch target */
+    --hit: 44px;
+}
+
+[data-theme="light"] {
+    color-scheme: light;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+}

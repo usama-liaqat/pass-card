@@ -1,0 +1,581 @@
+/*
+ * Wallet pass preview. Colors here are part of the card drawing: the theme
+ * colors arrive as --wc-* custom properties, and the details views use the
+ * platforms' own system greys. Sizes mirror WalletCard.dc.html.
+ */
+.wallet-card {
+    width: 360px;
+    font-family: var(--font);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 440px) {
+    .wallet-card {
+        zoom: 0.88;
+    }
+}
+
+/* Shared */
+.wc-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.wc-logo {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--wc-tile-bg);
+    color: var(--wc-tile-fg);
+}
+
+.wc-logo--image {
+    background: #ffffff;
+    object-fit: contain;
+}
+
+.wc-logo--mono {
+    font-size: var(--wc-mono-size);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.wc-logo--text {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.wc-label {
+    overflow: hidden;
+    margin-bottom: 2px;
+    color: var(--wc-label);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-label--primary {
+    margin-bottom: 4px;
+}
+
+.wc-row {
+    display: flex;
+    gap: 16px;
+}
+
+.wc-field {
+    flex: var(--wc-field-flex);
+    min-width: 0;
+    text-align: var(--wc-field-align);
+}
+
+.wc-field__label {
+    overflow: hidden;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-field--apple .wc-field__label {
+    color: var(--wc-label);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.wc-field--google .wc-field__label {
+    color: var(--wc-glabel);
+    font-size: 12px;
+}
+
+.wc-field__value {
+    overflow: hidden;
+    font-size: var(--wc-field-size);
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: var(--wc-field-opacity);
+}
+
+.wc-spacer {
+    flex: 1;
+}
+
+.wc-info {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.wc-info:focus-visible,
+.wallet-card a:focus-visible,
+.wallet-card button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* QR panel */
+.wc-qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    background: #ffffff;
+}
+
+.wc-qr--apple {
+    gap: 6px;
+    padding: 10px 10px 8px;
+    border-radius: 10px;
+}
+
+.wc-qr--google {
+    gap: 8px;
+    margin-top: 4px;
+    padding: 14px 14px 10px;
+    border-radius: 16px;
+}
+
+.wc-qr__image {
+    display: block;
+    object-fit: contain;
+}
+
+.wc-qr__caption {
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-qr--apple .wc-qr__caption {
+    max-width: 150px;
+    color: #3a3a40;
+    font-size: 11px;
+}
+
+.wc-qr--google .wc-qr__caption {
+    max-width: 170px;
+    color: #444746;
+    font-size: 12px;
+}
+
+/* Apple · front */
+.wc-apple {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-height: var(--wc-min-h);
+    padding: 14px 16px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--wc-border);
+    background: var(--wc-bg);
+    color: var(--wc-fg);
+    box-shadow: var(--shadow-card);
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.wc-apple__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 34px;
+}
+
+.wc-apple__title {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: var(--wc-title-opacity);
+}
+
+.wc-apple__header {
+    flex: none;
+    text-align: right;
+}
+
+.wc-apple__header-value {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.wc-apple__primary-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.wc-apple__primary {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Long names wrap to two lines, then clamp with an ellipsis. */
+.wc-apple__primary-value,
+.wc-google__primary-value {
+    display: -webkit-box;
+    overflow: hidden;
+    font-weight: 500;
+    word-break: break-word;
+    opacity: var(--wc-primary-opacity);
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.wc-apple__primary-value {
+    font-size: var(--wc-primary-size);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+}
+
+.wc-apple__primary-sub {
+    overflow: hidden;
+    margin-top: 5px;
+    color: var(--wc-label);
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-thumb {
+    flex: none;
+    width: 76px;
+    height: 76px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.wc-thumb--initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wc-thumb-bg);
+    color: var(--wc-thumb-fg);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.wc-info--apple {
+    right: 10px;
+    bottom: 10px;
+    width: 32px;
+    height: 32px;
+    color: var(--wc-label);
+}
+
+/* Apple · details */
+.wc-apple-back {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: var(--wc-min-h);
+    padding: 14px 16px 18px;
+    border-radius: 16px;
+    background: #f2f2f7;
+    color: #000000;
+    box-shadow: var(--shadow-card);
+}
+
+.wc-apple-back__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.wc-apple-back__issuer {
+    overflow: hidden;
+    color: #6c6c70;
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-apple-back__done {
+    position: relative;
+    min-height: 32px;
+    padding: 6px 0 6px 12px;
+    border: none;
+    background: transparent;
+    color: #007aff;
+    font: 600 15px var(--font);
+    cursor: pointer;
+}
+
+.wc-apple-back__heading {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.wc-apple-back__list,
+.wc-apple-back__empty {
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.wc-apple-back__list {
+    overflow: hidden;
+}
+
+.wc-apple-back__empty {
+    padding: 18px 14px;
+    color: #6c6c70;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.wc-apple-back__note {
+    color: #6c6c70;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.wc-detail--apple {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid #d1d1d6;
+}
+
+.wc-detail--apple:last-child {
+    border-bottom: none;
+}
+
+.wc-detail--apple .wc-detail__label {
+    margin-bottom: 2px;
+    color: #6c6c70;
+    font-size: 12px;
+}
+
+.wc-detail--apple .wc-detail__value {
+    color: #000000;
+    font-size: 15px;
+}
+
+.wc-detail__value {
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.wc-detail__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* Google · front */
+.wc-google {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px 18px 20px;
+    border-radius: 24px;
+    border: 1px solid var(--wc-border);
+    background: var(--wc-bg);
+    color: var(--wc-gfg);
+    box-shadow: var(--shadow-card);
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.wc-google__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding-right: 36px;
+}
+
+.wc-google .wc-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.wc-google__title {
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: var(--wc-title-opacity);
+}
+
+.wc-info--google {
+    top: 16px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    color: var(--wc-gfg);
+}
+
+/* The Google info button is 36px; grow its hit area to 44px. */
+.wc-info--google::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+}
+
+.wc-google__primary {
+    min-width: 0;
+}
+
+.wc-google__subheader {
+    overflow: hidden;
+    margin-bottom: 4px;
+    color: var(--wc-glabel);
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: var(--wc-sub-opacity);
+}
+
+.wc-google__primary-value {
+    font-size: var(--wc-primary-gsize);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.wc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.wc-chip {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--wc-chip-bg);
+    color: var(--wc-chip-fg);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Google · details (follows the app theme, like the canvas) */
+.wc-google-back {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow-card);
+}
+
+.wc-google-back__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wc-google-back__mono {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--wc-bg);
+    color: var(--wc-gfg);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.wc-google-back__heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.wc-google-back__title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.wc-google-back__issuer {
+    overflow: hidden;
+    color: var(--text3);
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.wc-google-back__back {
+    min-height: 44px;
+    padding: 8px 4px;
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font: 600 14px var(--font);
+    cursor: pointer;
+}
+
+.wc-google-back__list {
+    display: flex;
+    flex-direction: column;
+}
+
+.wc-detail--google {
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+}
+
+.wc-detail--google .wc-detail__label {
+    margin-bottom: 2px;
+    color: var(--text3);
+    font-size: 12px;
+}
+
+.wc-detail--google .wc-detail__value {
+    font-size: 14px;
+}
+
+.wc-google-back__empty {
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.wc-google-back__note {
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 12px;
+    line-height: 1.45;
+}

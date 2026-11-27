@@ -1,0 +1,154 @@
+.theme-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .theme-thumbs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.theme-thumb {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.theme-thumb__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    aspect-ratio: 1.5;
+    padding: 8px 9px;
+    overflow: hidden;
+    border-radius: var(--radius-10);
+    border: 1px solid var(--thumb-border);
+    background: var(--thumb-bg);
+    color: var(--thumb-fg);
+    transition:
+        transform var(--dur-fast) var(--ease),
+        box-shadow var(--dur-fast) var(--ease);
+}
+
+.theme-thumb:hover .theme-thumb__card {
+    transform: translateY(-1px);
+}
+
+.theme-thumb__input:checked + .theme-thumb__card {
+    box-shadow:
+        0 0 0 2px var(--surface),
+        0 0 0 4px var(--accent);
+}
+
+.theme-thumb__input:focus-visible + .theme-thumb__card {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+}
+
+.theme-thumb__top,
+.theme-thumb__bottom {
+    display: flex;
+    min-width: 0;
+}
+
+.theme-thumb__top {
+    align-items: center;
+    gap: 5px;
+}
+
+.theme-thumb__bottom {
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+/* Miniature card type: these sizes are part of the drawing, not UI text. */
+.theme-thumb__tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--thumb-tile-bg);
+    color: var(--thumb-tile-fg);
+    font-size: 6px;
+    font-weight: 700;
+}
+
+.theme-thumb__company,
+.theme-thumb__name,
+.theme-thumb__title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.theme-thumb__company {
+    font-size: 8px;
+    font-weight: 600;
+}
+
+.theme-thumb__person {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.theme-thumb__name {
+    font-size: 9.5px;
+    font-weight: 600;
+}
+
+.theme-thumb__title {
+    font-size: 7.5px;
+    color: var(--thumb-fg2);
+}
+
+.theme-thumb__avatar {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background: var(--thumb-avatar-bg);
+    color: var(--thumb-avatar-fg);
+    font-size: 7.5px;
+    font-weight: 600;
+}
+
+.theme-thumb__check {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accentText);
+}
+
+.theme-thumb__label {
+    padding-left: 2px;
+    font-size: var(--fs-12-5);
+    font-weight: 500;
+    color: var(--text2);
+}
+
+.theme-thumb__input:checked ~ .theme-thumb__label {
+    font-weight: 600;
+    color: var(--text);
+}

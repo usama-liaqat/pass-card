@@ -1,6 +1,7 @@
 export const PATHS = {
     home: "/",
-    about: "/about"
+    about: "/about",
+    components: "/components"
 } as const;
 
 export interface NavItem {
@@ -12,5 +13,6 @@ export interface NavItem {
 
 export const NAV_ITEMS: Array<NavItem> = [
     { to: PATHS.home, label: "Home", end: true },
-    { to: PATHS.about, label: "About" }
+    { to: PATHS.about, label: "About" },
+    { to: PATHS.components, label: "Components" }
 ];
