@@ -1,8 +1,8 @@
 import type { HTMLAttributes } from "react";
-import type { CardTypeId } from "../../cards/cardTypes";
-import type { CardDraft } from "../../cards/draftStore";
-import { SAMPLE_CARDS } from "../../cards/previewSamples";
-import type { WalletCardData } from "../../components/ui";
+import type { CardTypeId } from "./cardTypes";
+import type { CardDraft } from "./draftStore";
+import { SAMPLE_CARDS } from "./previewSamples";
+import type { WalletCardData } from "../components/ui";
 
 /*
  * Temporary fields for the placeholder card pages. They exist so the shared

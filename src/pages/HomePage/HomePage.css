@@ -220,12 +220,8 @@
 }
 
 @media (max-width: 600px) {
-    .home {
-        padding-top: 32px;
-    }
-
     .home__title {
-        font-size: var(--fs-26);
+        font-size: var(--fs-22);
     }
 
     .home__grid,

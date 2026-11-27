@@ -1,11 +1,12 @@
-import { Activity, memo } from "react";
+import { Activity, memo, useMemo } from "react";
 import { ArrowRight, Lock, QrCode, ShieldCheck, Wallet } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router";
 import { CARD_TYPES, createLabel } from "../../cards/cardTypes";
 import type { CardTypeConfig } from "../../cards/cardTypes";
-import { useDraftFlags } from "../../cards/draftStore";
-import { SAMPLE_CARDS } from "../../cards/previewSamples";
+import { buildCardPreview } from "../../cards/cardPreview";
+import { hasDraftContent, useAllDrafts } from "../../cards/draftStore";
+import type { CardDraft } from "../../cards/draftStore";
 import { WalletCard } from "../../components/ui";
 import "./HomePage.css";
 
@@ -38,7 +39,7 @@ const FEATURES: Array<Feature> = [
 ];
 
 export const HomePage = memo(() => {
-    const drafts = useDraftFlags();
+    const drafts = useAllDrafts();
 
     return (
         <div className="home wrap page-enter">
@@ -85,19 +86,22 @@ HomePage.displayName = "HomePage";
 
 interface HomeCardTileProps {
     type: CardTypeConfig;
-    draft: boolean;
+    draft: CardDraft;
 }
 
+/** One link per card type, previewing the user's draft (or a sample) on their chosen wallet. */
 const HomeCardTile = memo<HomeCardTileProps>(({ type, draft }) => {
     const Icon = type.icon;
+    const card = useMemo(() => buildCardPreview(type.id, draft), [type.id, draft]);
+    const hasDraft = useMemo(() => hasDraftContent(draft), [draft]);
     return (
         <Link to={type.route} className="home-tile">
             <span className="home-tile__stage">
                 {/* Decorative preview: inert so its buttons can't be focused inside the link. */}
                 <span className="home-tile__zoom" aria-hidden="true" inert>
-                    <WalletCard card={SAMPLE_CARDS[type.id]} platform="apple" view="front" />
+                    <WalletCard card={card} platform={draft.platform} view="front" />
                 </span>
-                <Activity mode={draft ? "visible" : "hidden"}>
+                <Activity mode={hasDraft ? "visible" : "hidden"}>
                     <span className="home-tile__draft">
                         <span className="home-tile__dot" />
                         Draft in this tab

@@ -108,9 +108,13 @@ export const useCardDraft = (type: CardTypeId): CardDraftApi => {
     return useMemo(() => ({ draft, update, setPreview, replace, reset }), [draft, update, setPreview, replace, reset]);
 };
 
+/** Every card type's draft, e.g. for the homepage previews. */
+export const useAllDrafts = (): Readonly<Record<CardTypeId, CardDraft>> =>
+    useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
 /** Which card types currently hold a draft, for the "Draft" dots and labels. */
 export const useDraftFlags = (): Record<CardTypeId, boolean> => {
-    const all = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+    const all = useAllDrafts();
     return useMemo(
         () =>
             Object.fromEntries(CARD_TYPE_IDS.map(id => [id, hasDraftContent(all[id])])) as Record<CardTypeId, boolean>,

@@ -6,8 +6,8 @@ import type { CardTypeId } from "../../cards/cardTypes";
 import { useCardDraft } from "../../cards/draftStore";
 import type { CardDraftApi } from "../../cards/draftStore";
 import { Banner, Field, SectionCard } from "../../components/ui";
-import { PLACEHOLDER_CONFIG, buildPlaceholderCard } from "./placeholderFields";
-import type { PlaceholderField } from "./placeholderFields";
+import { PLACEHOLDER_CONFIG, buildPlaceholderCard } from "../../cards/placeholderCards";
+import type { PlaceholderField } from "../../cards/placeholderCards";
 import "./CardPlaceholderPage.css";
 
 interface CardPlaceholderPageProps {
